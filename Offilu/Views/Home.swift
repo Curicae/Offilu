@@ -18,79 +18,136 @@ struct Home: View {
         ]
         
         ScrollView {
-            VStack(spacing: 20) {
-                Text("Hoş Geldiniz!")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .padding(.top)
-
-                Text("Günlük İlerleme")
-                    .fontWeight(.bold)
-                    .padding(.bottom)
-                
-                HStack {
-                    ProgressView(value: 0.5, total: 1.0)
-                        .frame(width: 300, height: 50)
-                        .progressViewStyle(LinearProgressViewStyle(tint: .green))
-                    Text("50%")
-                        .bold()
-                }
-                .padding(.bottom)
-
-                Text("Bugünkü Görevler")
-                    .fontWeight(.bold)
-                    .padding(.bottom)
-
-                
-                TasksList()
-                    .frame(height: 200)
-                    .padding(.bottom)
-
-                VStack {
-                    Text("İstatistikler")
+            VStack(spacing: 25) {
+                VStack(alignment: .leading) {
+                    Text("Hoş Geldiniz!")
+                        .font(.title)
                         .fontWeight(.bold)
-                        .padding(.bottom)
+                        .foregroundColor(.white)
+                        .padding(.top)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("Günlük İlerleme")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                    
+                    VStack(spacing: 8) {
+                        ProgressView(value: 0.5, total: 1.0)
+                            .progressViewStyle(LinearProgressViewStyle(tint: .green))
+                            .frame(height: 8)
+                        
+                        HStack {
+                            Text("\(completedTasks)/\(totalTasks) Görev")
+                                .foregroundColor(.gray)
+                            Spacer()
+                            Text("50%")
+                                .fontWeight(.semibold)
+                                .foregroundColor(.green)
+                        }
+                    }
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.gray.opacity(0.15))
+                )
+                .padding(.horizontal)
+
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("Bugünkü Görevler")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                    
+                    TasksList()
+                        .frame(height: 200)
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.gray.opacity(0.15))
+                )
+                .padding(.horizontal)
+
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("İstatistikler")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
                     
                     Chart(data) { task in
                         BarMark(
                             x: .value("Durum", task.status),
                             y: .value("Görev Sayısı", task.count)
                         )
-                        .foregroundStyle(task.status == "Tamamlanan" ? .green : .red)
+                        .foregroundStyle(task.status == "Tamamlanan" ? .green : .red.opacity(0.8))
                     }
-                    .frame(height: 250)
-                    .padding()
-                    .chartXAxis(.hidden)
-                    .chartYAxis(.hidden)
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 30)
-                        .stroke(Color.black, lineWidth: 2)
-                )
-                .padding(.bottom)
-
-                Text("Rozetler")
-                    .fontWeight(.bold)
-                    .padding(.bottom)
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20) {
-                        ForEach(0..<3) { _ in
-                            Image(systemName: "trophy.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
-                                .padding()
-                                .background(Circle().fill(Color.yellow.opacity(0.3)))
-                                .cornerRadius(25)
+                    .frame(height: 200)
+                    .chartXAxis {
+                        AxisMarks { _ in
+                            AxisValueLabel()
+                                .foregroundStyle(.white)
+                        }
+                    }
+                    .chartYAxis {
+                        AxisMarks { _ in
+                            AxisValueLabel()
+                                .foregroundStyle(.white)
                         }
                     }
                 }
-                .padding(.bottom)
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.gray.opacity(0.15))
+                )
+                .padding(.horizontal)
+
+                VStack(alignment: .leading, spacing: 15) {
+                    Text("Rozetler")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 20) {
+                            ForEach(0..<3) { index in
+                                VStack(spacing: 10) {
+                                    Image(systemName: "trophy.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 40, height: 40)
+                                        .foregroundColor(.yellow)
+                                        .shadow(color: .yellow.opacity(0.5), radius: 5)
+                                    
+                                    Text("Rozet \(index + 1)")
+                                        .font(.caption)
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.white)
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .fill(Color.yellow.opacity(0.15))
+                                )
+                            }
+                        }
+                    }
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(Color.gray.opacity(0.15))
+                )
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
+            .padding(.vertical)
         }
-        .background(Color.white)
+        .background(Color.black)
     }
 }
 
