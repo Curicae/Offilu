@@ -44,7 +44,7 @@ struct Home: View {
                             Text("\(completedTasks)/\(totalTasks) Görev")
                                 .foregroundColor(.gray)
                             Spacer()
-                            Text("50%")
+                            Text("60%")
                                 .fontWeight(.semibold)
                                 .foregroundColor(.green)
                         }
